@@ -8,5 +8,6 @@ The information of emulating an HID with the esp can be found in: https://github
 
 ## Dependecies
 uTLGBotLib - https://github.com/J-Rios/uTLGBotLib/tree/master
+
 Tinyusb - https://github.com/hathach/tinyusb
 
