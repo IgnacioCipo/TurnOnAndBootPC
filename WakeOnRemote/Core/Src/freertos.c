@@ -44,12 +44,21 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
+extern uint8_t received_msg_flag;
+// Buffer to store the received message
+extern uint8_t UART1_rxBuffer[3];
 
+extern UART_HandleTypeDef huart1;
 /* USER CODE END Variables */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	if (huart->Instance == USART1) {
+		received_msg_flag = 1;
+	}
+	HAL_UART_Receive_IT(&huart1, (uint8_t*) UART1_rxBuffer, 3);
+}
 /* USER CODE END FunctionPrototypes */
 
 /* GetIdleTaskMemory prototype (linked to static allocation support) */

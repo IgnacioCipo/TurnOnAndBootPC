@@ -52,7 +52,7 @@ osThreadId mainTaskHandle;
 // Variable to set when a message has arrived
 uint8_t received_msg_flag = 0;
 // Buffer to store the received message
-uint8_t UART1_rxBuffer[7] = {0};
+uint8_t UART1_rxBuffer[3] = {0};
 
 /* USER CODE END PV */
 
@@ -293,11 +293,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+/*
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     HAL_UART_Receive_IT(&huart1, UART1_rxBuffer, 7);
     received_msg_flag = 1;
 }
+*/
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartMainTask */
@@ -329,13 +331,15 @@ void StartMainTask(void const * argument)
 
   keyboardHID keyboardhid = {0,0,0,0,0,0,0,0};
 
+  HAL_UART_Receive_IT(&huart1, (uint8_t*) UART1_rxBuffer, 3);
+
   /* Infinite loop */
   for(;;)
   {
 	  // If a new message has arrived
-	  if(received_msg_flag == 1){
+	  if((received_msg_flag == 1) && (UART1_rxBuffer[0] == 0xA1) && (UART1_rxBuffer[3] == 0xB1)){
 		  // Check if the user wants to go into Ubuntu
-		  if(){
+		  if(UART1_rxBuffer[1] == 0x01){
 			  // Just sends Enter because Ubuntu is in the first boot position
 			  keyboardhid.KEYCODE1 = 0x58;		// Send "Enter"
 			  USBD_HID_SendReport(&hUsbDeviceFS, &keyboardhid, sizeof(keyboardhid));
@@ -347,7 +351,7 @@ void StartMainTask(void const * argument)
 			  // Sends the Ubuntu user password
 		  }
 		  // Check if the user wants to go into Windows
-		  else if(){
+		  else if(UART1_rxBuffer[1] == 0x02){
 			  // Sends two times Down Arrow and Enter because Windows is in the third boot position
 			  keyboardhid.KEYCODE1 = 0x51;		// Send "Down arrow"
 			  USBD_HID_SendReport(&hUsbDeviceFS, &keyboardhid, sizeof(keyboardhid));
@@ -370,7 +374,7 @@ void StartMainTask(void const * argument)
 		  }
 		  received_msg_flag = 0;	// Resets message received flag
 	  }
-    osDelay(1);
+    osDelay(10);
   }
 
   /* USER CODE END 5 */
