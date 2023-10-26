@@ -11,3 +11,5 @@ uTLGBotLib - https://github.com/J-Rios/uTLGBotLib/tree/master
 
 Tinyusb - https://github.com/hathach/tinyusb
 
+## Greetings 
+Thanks to my friend Darío Río, for sharing with me really important information for the development of this project. 
