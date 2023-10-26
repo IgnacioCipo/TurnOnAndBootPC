@@ -352,10 +352,15 @@ void StartMainTask(void const * argument)
 	  osDelay(1000);
 	  HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
 	  osDelay(1000);
+
+	  received_msg_flag = 1;
+	  UART1_rxBuffer[0] = 0xA1;
+	  UART1_rxBuffer[1] = 0x02;
+	  UART1_rxBuffer[2] = 0xB1;
 	  // If a new message has arrived
-	  if((received_msg_flag == 1) && (UART1_rxBuffer[0] == 0xA1) && (UART1_rxBuffer[3] == 0xB1)){
+	  if((received_msg_flag == 1) && (UART1_rxBuffer[0] == 0xA1) && (UART1_rxBuffer[2] == 0xB1)){
 		  // Check if the user wants to go into Ubuntu
-		  if(UART1_rxBuffer[1] == 0x01){
+		  if(UART1_rxBuffer[0] == 0x01){
 			  // Just sends Enter because Ubuntu is in the first boot position
 			  keyboardhid.KEYCODE1 = 0x58;		// Send "Enter"
 			  USBD_HID_SendReport(&hUsbDeviceFS, &keyboardhid, sizeof(keyboardhid));
