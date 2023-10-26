@@ -3,5 +3,5 @@
 ../Core/Src/main.c:200:13:MX_TIM2_Init	4
 ../Core/Src/main.c:249:13:MX_USART1_UART_Init	2
 ../Core/Src/main.c:282:13:MX_GPIO_Init	1
-../Core/Src/main.c:312:6:StartMainTask	6
-../Core/Src/main.c:387:6:Error_Handler	1
+../Core/Src/main.c:324:6:StartMainTask	6
+../Core/Src/main.c:403:6:Error_Handler	1
