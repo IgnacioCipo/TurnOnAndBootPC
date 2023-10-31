@@ -1,2 +1,0 @@
-../Core/Src/freertos.c:56:6:HAL_UART_RxCpltCallback	16	static
-../Core/Src/freertos.c:71:6:vApplicationGetIdleTaskMemory	24	static
