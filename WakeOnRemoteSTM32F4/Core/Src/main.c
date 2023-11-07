@@ -71,14 +71,8 @@ typedef struct{
 keyboardHID keyboardhid = {0, 0, 0, 0, 0, 0, 0, 0};
 
 // If boot equals 0 will boot Ubuntu, else if it is 1, will boot on windows
-uint8_t boot = 0;
-char password[] = "";
+uint8_t boot = 1;
 
-void sendPassword(){
-	for(uint8_t c = 0; c <= strlen(password); c++){
-
-	}
-}
 /* USER CODE END 0 */
 
 /**
@@ -121,6 +115,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  HAL_GPIO_TogglePin(ONBOARD_LED_GPIO_Port, ONBOARD_LED_Pin);
+	  HAL_Delay(2000);
 	  if(boot == 0){
 		  // Sends ENTER
 		  keyboardhid.KEYCODE1 = 0x28;
@@ -129,7 +125,7 @@ int main(void)
 		  keyboardhid.KEYCODE1 = 0x00;
 		  USBD_HID_SendReport(&hUsbDeviceFS, &keyboardhid, sizeof(keyboardhid));
 		  HAL_Delay(1000);
-		  sendPassword();
+		  boot = 2;
 	  }
 	  else if(boot == 1){
 		  // Sends two DOWN ARROW and ENTER
@@ -151,6 +147,7 @@ int main(void)
 		  keyboardhid.KEYCODE1 = 0x00;
 		  USBD_HID_SendReport(&hUsbDeviceFS, &keyboardhid, sizeof(keyboardhid));
 		  HAL_Delay(1000);
+		  boot = 2;
 
 	  }
   }
